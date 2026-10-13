@@ -4,7 +4,7 @@ from text import Text
 
 class ScoreBoard:
 
-    def __init__(self, x,y,width, height):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.screen_width = width
@@ -37,19 +37,22 @@ class ScoreBoard:
         return self.letters
     
     def draw(self,surface):
-        leftside = "POINTS: " + str(self.score)
-        LeftArea = Text(leftside, self.x*.5, self.y)
-        LeftArea.setColor((0,255,0))
+        green = (0, 255, 0)
+
+        score = self.getScore()
+        leftside = f"POINTS: {score}" 
+        LeftArea = Text(leftside,(self.screen_width*.05), self.y)
+        LeftArea.setColor(green)
         LeftArea.draw(surface)
 
-        elapsed = self.getTimer()
-        middle = "TIMER:  + {elapsed:.1f}"
-        MiddleArea = Text(middle, 300, 20)
-        MiddleArea.setColor((0,255,0))
+        elapsedTime = self.getTimer()
+        middle = f"TIMER: {elapsedTime:.2f}"
+        MiddleArea = Text(middle, self.screen_width*.20, self.y)
+        MiddleArea.setColor(green)
         MiddleArea.draw(surface)
 
-        rightside = " ".join(self.letters)
-        RightArea = Text(rightside, 550)
-        RightArea.setColor((0,255,0))
+        rightside = (self.letters)
+        RightArea = Text(rightside, self.screen_width *.65, self.y)
+        RightArea.setColor(green)
         RightArea.draw(surface)
         

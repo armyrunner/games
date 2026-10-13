@@ -10,9 +10,9 @@ from randomspawner import RandomSpawner
 # window title bar text
 TITLE = "Letter Invaders"
 # pixels width
-WINDOW_WIDTH  = 800
+WINDOW_WIDTH  = 1000
 # pixels high
-WINDOW_HEIGHT = 600
+WINDOW_HEIGHT = 800
 # frames per second
 DESIRED_RATE  = 30
 
@@ -21,7 +21,7 @@ class PygameApp( game.Game):
     def __init__( self, title, width, height, frame_rate ):
 
         game.Game.__init__(self,title, width, height, frame_rate )
-        self.score_board = ScoreBoard(20,20, width, height)
+        self.score_board = ScoreBoard(15,15, width, height)
         self.spawn = RandomSpawner(self.score_board.letters, width, height)
 
         return

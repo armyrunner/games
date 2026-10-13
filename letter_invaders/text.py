@@ -7,7 +7,7 @@ class Text:
         self.mY = y
         self.mString = string
         self.mColor = (250,250,250)
-        font_height = 24
+        font_height = 15
         self.mFont = pygame.font.SysFont( "Courier New", font_height )
         return
 

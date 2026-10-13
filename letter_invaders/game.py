@@ -95,6 +95,7 @@ class Game:
                             falling_letters.remove(letters)
 
             if self.on:
+                self.screen.fill((0,0,0))
                 self.game_logic( keys, newkeys, buttons,
                                 newbuttons, mouse_position, self.delta_time )
                 self.paint( self.screen )
