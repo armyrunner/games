@@ -8,7 +8,7 @@ class Text:
         self.mString = string
         self.mColor = (250,250,250)
         font_height = 15
-        self.mFont = pygame.font.SysFont( "Courier New", font_height )
+        self.mFont = pygame.font.SysFont( "Arial", font_height, bold=True )
         return
 
     def setText( self, string ):
@@ -20,7 +20,7 @@ class Text:
         return
 
     def setSize( self, size ):
-        self.mFont = pygame.font.SysFont( "Courier New", size )
+        self.mFont = pygame.font.SysFont( "Arial", size )
         return
 
     def draw( self, surface ):

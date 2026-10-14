@@ -4,6 +4,8 @@ import game
 
 from score_board import ScoreBoard
 from randomspawner import RandomSpawner
+from dangerbar import DangerBar
+from text import Text
 #from dangerbar import *
 
 # YOU SHOULD CONFIGURE THESE TO MATCH YOUR GAME
@@ -14,15 +16,20 @@ WINDOW_WIDTH  = 1000
 # pixels high
 WINDOW_HEIGHT = 800
 # frames per second
-DESIRED_RATE  = 30
+DESIRED_RATE  = 5
 
 class PygameApp( game.Game):
 
     def __init__( self, title, width, height, frame_rate ):
-
+        
         game.Game.__init__(self,title, width, height, frame_rate )
+
+        font = pygame.font.Font(None, 20)
+        character_width = font.size("A")[0]
+
         self.score_board = ScoreBoard(15,15, width, height)
-        self.spawn = RandomSpawner(self.score_board.letters, width, height)
+        self.danger_bar = DangerBar(width,height,character_width)
+        self.spawn = RandomSpawner(self.score_board.letters, width, height,self.danger_bar) 
 
         return
         
@@ -51,12 +58,33 @@ class PygameApp( game.Game):
         # YOU SHOULD CHANGE THIS TO IMPORT YOUR GAME MODULE
         self.spawn.update(dt)
 
+        for char in newkeys:
+
+            for letter in self.spawn.falling_letters[:]:
+                falling_char = str(letter.letters).upper()
+             
+
+                if falling_char == char:
+
+                    letter.selected = True
+                    letter.active = False
+                    self.spawn.falling_letters.remove(letter)
+
+                    self.score_board.increaseScore()
+                    break
+
+                if self.danger_bar.game_over:
+                    Text.setText("GAME OVER",)
+        
+
         return
     
     def paint( self, surface ):
         # Draw the current state of the game instance
         self.spawn.draw(surface)
         self.score_board.draw(surface)
+        self.danger_bar.draw(surface)
+
         return
 
 def main( ):

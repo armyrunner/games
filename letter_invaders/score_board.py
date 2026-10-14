@@ -28,7 +28,10 @@ class ScoreBoard:
         return self.screen_height
     
     def getScore(self):
-        return self.score
+        return self.score 
+    
+    def increaseScore(self):
+        self.score += 1
     
     def getTimer(self):
         return time.perf_counter() - self.timer

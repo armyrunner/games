@@ -51,15 +51,18 @@ class Game:
         keys = set( )
         buttons = set( )
         mouse_position = ( 1, 1 )
-        self.last_frame_time = pygame.time.get_ticks( ) / 1000.
-
-        falling_letters = []
+        self.last_frame_time = pygame.time.get_ticks() / 1000.
+        self.delta_time = 0.0
 
         while True:
-            
+
             self.clock.tick( self.frames_per_second )
             newkeys = set( )
             newbuttons = set( )
+
+            self.this_frame_time = pygame.time.get_ticks() / 1000
+            self.delta_time = self.this_frame_time - self.last_frame_time
+            self.last_frame_time = self.this_frame_time
 
             for e in pygame.event.get( ):
                 # did the user try to close the window?
@@ -71,28 +74,23 @@ class Game:
                     if e.key == pygame.K_ESCAPE:
                         pygame.quit()
                         return
-                    
+                    if e.unicode and e.unicode.isprintable():
+                        newkeys.add(e.unicode.upper())
+                        print("Key detected:", repr(e.unicode.upper()))
+                          
+                    newkeys.add(e.key)
                     char = e.unicode.upper()
 
-                    if char and char.isprintable():
-                        print("key pressed: ", char)
+                    print("Key detected:", pygame.key.name(e.key).upper())
+                
+                elif e.type == pygame.KEYUP:
+                    keys.discard(e.key)
 
-                    for letters in falling_letters:
-                        if letters.active and letters.char == char:
-                            letters.selected = True
-                            letters.active = False
-                            self.score_board.getScore += 1
-                            break
-
-                    self.this_frame_time = pygame.time.get_ticks / 1000
-                    self.delta_time = self.this_frame_time - self.last_frame_time
-                    self.this_frame_time = self.this_frame_time
-
-                    for letters in falling_letters[:]:
-                        letters.update()
-
-                        if not letters.active or letters.y > self.height:
-                            falling_letters.remove(letters)
+                
+                elif e.type == pygame.MOUSEBUTTONDOWN:
+                    newbuttons.add(e.button)
+            keys.update(newkeys)
+            buttons.update(newbuttons)
 
             if self.on:
                 self.screen.fill((0,0,0))
